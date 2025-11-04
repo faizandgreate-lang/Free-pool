@@ -10,7 +10,7 @@
       margin: 0;
       background: linear-gradient(135deg, #f8f9fa, #e9ecef);
       color: #222;
-      overflow: hidden; /* prevent scroll during loading */
+      overflow: hidden;
     }
     header {
       background: #004085;
@@ -38,11 +38,21 @@
     .download-btn:hover {
       background: #157347;
     }
-    iframe {
+
+    /* iframe container for better scaling */
+    .iframe-container {
+      position: relative;
       width: 100%;
       height: calc(100vh - 120px);
+      overflow: auto;
+      background: white;
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
       border: none;
-      display: none; /* hide until loaded */
+      transform-origin: 0 0;
+      display: none;
     }
 
     /* 🔄 Loading screen */
@@ -65,7 +75,6 @@
       width: 400px;
       height: auto;
       margin-bottom: 25px;
-      object-fit: contain;
       animation: pulse 1.6s ease-in-out infinite;
     }
     #loadingScreen p {
@@ -80,15 +89,31 @@
       0%, 100% { transform: scale(1); opacity: 0.9; }
       50% { transform: scale(1.04); opacity: 1; }
     }
-
     @keyframes fade {
       0%, 100% { opacity: 0.3; }
       50% { opacity: 1; }
     }
 
-    @media (max-width: 600px) {
-      #loadingScreen img { width: 260px; }
-      #loadingScreen p { font-size: 16px; }
+    @media (max-width: 1000px) {
+      iframe {
+        transform: scale(0.85);
+        width: 118%;
+        height: 118%;
+      }
+    }
+    @media (max-width: 700px) {
+      iframe {
+        transform: scale(0.7);
+        width: 142%;
+        height: 142%;
+      }
+    }
+    @media (max-width: 500px) {
+      iframe {
+        transform: scale(0.55);
+        width: 182%;
+        height: 182%;
+      }
     }
   </style>
 </head>
@@ -112,13 +137,14 @@
       </a>
     </div>
 
-    <iframe id="dataFrame"
-      src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRzP7kzkSlt3M4toF34vnyxBdHgQ2J9kM0yTNb4NSL-ZsM9O8vC4M83J4uw-y-DWusEtVBYuHJ-SqMs/pubhtml?widget=true&headers=false">
-    </iframe>
+    <div class="iframe-container">
+      <iframe id="dataFrame"
+        src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRzP7kzkSlt3M4toF34vnyxBdHgQ2J9kM0yTNb4NSL-ZsM9O8vC4M83J4uw-y-DWusEtVBYuHJ-SqMs/pubhtml?widget=true&headers=false">
+      </iframe>
+    </div>
   </div>
 
   <script>
-    // Wait for iframe to load before showing content
     const loader = document.getElementById("loadingScreen");
     const iframe = document.getElementById("dataFrame");
     const main = document.getElementById("mainContent");
@@ -131,7 +157,7 @@
           loader.remove();
           main.style.display = "block";
           iframe.style.display = "block";
-          document.body.style.overflow = "auto"; // re-enable scrolling
+          document.body.style.overflow = "auto";
         }, 800);
       }, 800);
     });
