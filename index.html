@@ -122,6 +122,23 @@
     @media (max-width: 500px) {
       iframe { transform: scale(0.55); width: 182%; height: 182%; }
     }
+    /* 🚫 Hide Google Translate top bar and logo */
+.goog-te-banner-frame.skiptranslate,
+.goog-logo-link,
+.goog-te-gadget span {
+  display: none !important;
+}
+body {
+  top: 0px !important;
+}
+#goog-gt-tt, .goog-te-balloon-frame {
+  display: none !important;
+}
+.goog-text-highlight {
+  background: none !important;
+  box-shadow: none !important;
+}
+
   </style>
 </head>
 <body>
