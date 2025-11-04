@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>"Live Free-Pool"</title>
+  <title>Live Free-Pool</title>
   <style>
     body {
       font-family: "Poppins", Arial, sans-serif;
       margin: 0;
       background: linear-gradient(135deg, #f8f9fa, #e9ecef);
       color: #222;
+      overflow: hidden; /* prevent scroll during loading */
     }
     header {
       background: #004085;
@@ -41,6 +42,7 @@
       width: 100%;
       height: calc(100vh - 120px);
       border: none;
+      display: none; /* hide until loaded */
     }
 
     /* 🔄 Loading screen */
@@ -59,26 +61,34 @@
       box-sizing: border-box;
     }
     #loadingScreen img {
-      max-width: 80%;
-      width: 350px;
+      max-width: 85%;
+      width: 400px;
       height: auto;
-      margin-bottom: 20px;
+      margin-bottom: 25px;
       object-fit: contain;
+      animation: pulse 1.6s ease-in-out infinite;
     }
     #loadingScreen p {
       font-size: 20px;
       color: #004085;
       font-weight: 600;
       margin: 0;
+      animation: fade 1.6s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.9; }
+      50% { transform: scale(1.04); opacity: 1; }
+    }
+
+    @keyframes fade {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
     }
 
     @media (max-width: 600px) {
-      #loadingScreen img {
-        width: 250px;
-      }
-      #loadingScreen p {
-        font-size: 16px;
-      }
+      #loadingScreen img { width: 260px; }
+      #loadingScreen p { font-size: 16px; }
     }
   </style>
 </head>
@@ -91,27 +101,39 @@
   </div>
 
   <!-- 📋 Main Page -->
-  <header>"Carefully Matched, Professionally Supplied"</header>
+  <div id="mainContent" style="display:none;">
+    <header>“Carefully Matched, Professionally Supplied”</header>
 
-  <div class="top-bar">
-    <a class="download-btn" 
-       href="https://docs.google.com/spreadsheets/d/1-zyAJe8u1R9Pmtq3raT39UeEuoahfjEq_bvQKq2HMc8/export?format=xlsx&id=1-zyAJe8u1R9Pmtq3raT39UeEuoahfjEq_bvQKq2HMc8"
-       target="_blank">
-      ⬇ Download Excel
-    </a>
+    <div class="top-bar">
+      <a class="download-btn" 
+        href="https://docs.google.com/spreadsheets/d/1-zyAJe8u1R9Pmtq3raT39UeEuoahfjEq_bvQKq2HMc8/export?format=xlsx&id=1-zyAJe8u1R9Pmtq3raT39UeEuoahfjEq_bvQKq2HMc8"
+        target="_blank">
+        ⬇ Download Excel
+      </a>
+    </div>
+
+    <iframe id="dataFrame"
+      src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRzP7kzkSlt3M4toF34vnyxBdHgQ2J9kM0yTNb4NSL-ZsM9O8vC4M83J4uw-y-DWusEtVBYuHJ-SqMs/pubhtml?widget=true&headers=false">
+    </iframe>
   </div>
 
-  <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRzP7kzkSlt3M4toF34vnyxBdHgQ2J9kM0yTNb4NSL-ZsM9O8vC4M83J4uw-y-DWusEtVBYuHJ-SqMs/pubhtml?widget=true&headers=false"></iframe>
-
   <script>
-    // Simple 1-sec loading screen fade-out
-    window.addEventListener("load", () => {
-      const loader = document.getElementById("loadingScreen");
+    // Wait for iframe to load before showing content
+    const loader = document.getElementById("loadingScreen");
+    const iframe = document.getElementById("dataFrame");
+    const main = document.getElementById("mainContent");
+
+    iframe.addEventListener("load", () => {
       setTimeout(() => {
         loader.style.opacity = "0";
-        loader.style.transition = "opacity 0.6s ease";
-        setTimeout(() => loader.remove(), 600);
-      }, 1000); // show for 1 second
+        loader.style.transition = "opacity 0.8s ease";
+        setTimeout(() => {
+          loader.remove();
+          main.style.display = "block";
+          iframe.style.display = "block";
+          document.body.style.overflow = "auto"; // re-enable scrolling
+        }, 800);
+      }, 800);
     });
   </script>
 
