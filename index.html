@@ -31,7 +31,7 @@ body{top:0!important}
 </style>
 </head>
 <body>
-<div id="warningBox">⚠️ Translator still loading... please wait 1 seconds.</div>
+<div id="warningBox">⚠️ Translator still loading... please wait.</div>
 
 <div class="lang-buttons">
   <button class="lang-btn" data-lang="en">🇬🇧</button>
@@ -40,7 +40,7 @@ body{top:0!important}
   <button class="lang-btn" data-lang="ur">🇵🇰</button>
 </div>
 
-<div id="google_translate_element" style="display:none"></div>
+<div id="google_translate_element" style="position:absolute;top:-100px;opacity:0;"></div>
 
 <div id="loadingScreen">
   <img src="https://i.ibb.co/N0Bdr5N/Care-Pro-Logo-Jan-2025-Transparent.png" alt="Care-Pro Logo">
@@ -66,34 +66,40 @@ warning=document.getElementById("warningBox");
 function showContent(){
   loader.style.opacity="0";
   loader.style.transition="opacity .8s ease";
-  setTimeout(()=>{loader.remove();main.style.display="block";iframe.style.display="block";document.body.style.overflow="auto"},800);
+  setTimeout(()=>{
+    loader.remove();
+    main.style.display="block";
+    iframe.style.display="block";
+    document.body.style.overflow="auto";
+  },800);
 }
 iframe.addEventListener("load",showContent);
 setTimeout(showContent,2500);
 
-// ✅ Initialize Google Translate
+let translateReady=false;
+
 function googleTranslateElementInit(){
-  new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,ar,hi,ur",layout:google.translate.TranslateElement.InlineLayout.SIMPLE},"google_translate_element");
+  new google.translate.TranslateElement({
+    pageLanguage:"en",
+    includedLanguages:"en,ar,hi,ur",
+    layout:google.translate.TranslateElement.InlineLayout.SIMPLE
+  },"google_translate_element");
+  translateReady=true;
 }
 
-// ✅ Retry system for language change
 function changeLanguage(lang){
-  let tries=0;
-  function attempt(){
-    const frame=document.querySelector("iframe.goog-te-menu-frame");
-    if(!frame){
-      if(tries<8){tries++;setTimeout(attempt,500);}else{
-        warning.style.display="block";
-        setTimeout(()=>warning.style.display="none",2500);
-      }
-      return;
-    }
-    const innerDoc=frame.contentDocument||frame.contentWindow.document,
-    links=innerDoc.querySelectorAll(".goog-te-menu2-item span.text"),
-    map={en:"English",ar:"Arabic",hi:"Hindi",ur:"Urdu"};
-    links.forEach(el=>{if(el.innerText.includes(map[lang]))el.click()});
+  if(!translateReady){
+    warning.style.display="block";
+    warning.textContent="⚠️ Translator still loading... please wait.";
+    setTimeout(()=>warning.style.display="none",2000);
+    return;
   }
-  attempt();
+  const frame=document.querySelector("iframe.goog-te-menu-frame");
+  if(!frame)return;
+  const innerDoc=frame.contentDocument||frame.contentWindow.document,
+  links=innerDoc.querySelectorAll(".goog-te-menu2-item span.text"),
+  map={en:"English",ar:"Arabic",hi:"Hindi",ur:"Urdu"};
+  links.forEach(el=>{if(el.innerText.includes(map[lang]))el.click()});
 }
 
 document.querySelectorAll(".lang-btn").forEach(btn=>{
@@ -101,6 +107,17 @@ document.querySelectorAll(".lang-btn").forEach(btn=>{
 });
 </script>
 
-<script async src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<!-- ✅ Working Google Translate (loads even in KSA) -->
+<script src="https://translate.googleapis.com/translate_static/js/element/main.js"></script>
+<script>
+window.addEventListener('load',()=>{
+  if(typeof google!=='undefined'&&google.translate){
+    googleTranslateElementInit();
+  }else{
+    alert('⚠️ Translation service failed to load. Please refresh.');
+  }
+});
+</script>
+
 </body>
 </html>
