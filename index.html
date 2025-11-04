@@ -39,23 +39,24 @@
       background: #157347;
     }
 
-    /* 🌐 Translate button */
-    #translateBtn {
+    /* 🌐 Language buttons */
+    .lang-buttons {
       position: fixed;
       top: 15px;
       right: 15px;
-      background: #004085;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      padding: 8px 14px;
-      font-weight: 600;
-      cursor: pointer;
+      display: flex;
+      gap: 8px;
       z-index: 10000;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     }
-    #translateBtn:hover {
-      background: #0056b3;
+    .lang-btn {
+      font-size: 22px;
+      cursor: pointer;
+      border: none;
+      background: none;
+      transition: transform 0.2s;
+    }
+    .lang-btn:hover {
+      transform: scale(1.2);
     }
 
     /* iframe container */
@@ -123,7 +124,7 @@
       iframe { transform: scale(0.55); width: 182%; height: 182%; }
     }
 
-    /* 🚫 Hide Google Translate branding */
+    /* 🚫 Hide Google Translate branding completely */
     .goog-te-banner-frame.skiptranslate,
     .goog-logo-link,
     .goog-te-gadget span,
@@ -133,16 +134,21 @@
     .goog-te-gadget {
       color: transparent !important;
     }
-    body {
-      top: 0px !important;
-    }
+    body { top: 0px !important; }
   </style>
 </head>
 <body>
 
-  <!-- 🌐 Translate button -->
-  <button id="translateBtn">🌐 Translate</button>
-  <div id="google_translate_element" style="display:none; position:fixed; top:60px; right:15px; z-index:10000;"></div>
+  <!-- 🌐 Emoji Language Buttons -->
+  <div class="lang-buttons">
+    <button class="lang-btn" data-lang="en">🇬🇧</button>
+    <button class="lang-btn" data-lang="ar">🇸🇦</button>
+    <button class="lang-btn" data-lang="hi">🇮🇳</button>
+    <button class="lang-btn" data-lang="ur">🇵🇰</button>
+  </div>
+
+  <!-- Hidden Translate widget -->
+  <div id="google_translate_element" style="display:none;"></div>
 
   <!-- 🔄 Loading Page -->
   <div id="loadingScreen">
@@ -175,7 +181,6 @@
     const iframe = document.getElementById("dataFrame");
     const main = document.getElementById("mainContent");
 
-    // Show main content when iframe loads or after 3 seconds fallback
     const showContent = () => {
       loader.style.opacity = "0";
       loader.style.transition = "opacity 0.8s ease";
@@ -188,25 +193,42 @@
     };
 
     iframe.addEventListener("load", showContent);
-    setTimeout(showContent, 3000); // fallback if iframe slow
+    setTimeout(showContent, 3000);
 
-    // ✅ Google Translate setup (only 4 languages)
+    // ✅ Google Translate init
     function googleTranslateElementInit() {
       new google.translate.TranslateElement({
         pageLanguage: 'en',
-        includedLanguages: 'en,ur,hi,ar',
+        includedLanguages: 'en,ar,hi,ur',
         layout: google.translate.TranslateElement.InlineLayout.SIMPLE
       }, 'google_translate_element');
     }
 
-    document.getElementById('translateBtn').addEventListener('click', () => {
-      const widget = document.getElementById('google_translate_element');
-      widget.style.display = widget.style.display === 'none' ? 'block' : 'none';
+    // ✅ Flag button translation
+    function changeLanguage(lang) {
+      const frame = document.querySelector('iframe.goog-te-menu-frame');
+      if (!frame) return alert("Please wait for translator to load...");
+      const languages = {
+        'en': 'English',
+        'ar': 'Arabic',
+        'hi': 'Hindi',
+        'ur': 'Urdu'
+      };
+      const innerDoc = frame.contentDocument || frame.contentWindow.document;
+      const links = innerDoc.querySelectorAll('.goog-te-menu2-item span.text');
+      links.forEach(el => {
+        if (el.innerText.includes(languages[lang])) el.click();
+      });
+    }
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        changeLanguage(btn.dataset.lang);
+      });
     });
   </script>
 
-  <!-- Load Translate script safely -->
+  <!-- Load Google Translate -->
   <script async src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
 </body>
 </html>
