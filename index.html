@@ -114,25 +114,13 @@
     }
 
     @media (max-width: 1000px) {
-      iframe {
-        transform: scale(0.85);
-        width: 118%;
-        height: 118%;
-      }
+      iframe { transform: scale(0.85); width: 118%; height: 118%; }
     }
     @media (max-width: 700px) {
-      iframe {
-        transform: scale(0.7);
-        width: 142%;
-        height: 142%;
-      }
+      iframe { transform: scale(0.7); width: 142%; height: 142%; }
     }
     @media (max-width: 500px) {
-      iframe {
-        transform: scale(0.55);
-        width: 182%;
-        height: 182%;
-      }
+      iframe { transform: scale(0.55); width: 182%; height: 182%; }
     }
   </style>
 </head>
@@ -140,7 +128,7 @@
 
   <!-- 🌐 Translate button -->
   <button id="translateBtn">🌐 Translate</button>
-  <div id="google_translate_element" style="display:none;"></div>
+  <div id="google_translate_element" style="display:none; position:fixed; top:60px; right:15px; z-index:10000;"></div>
 
   <!-- 🔄 Loading Page -->
   <div id="loadingScreen">
@@ -167,8 +155,28 @@
     </div>
   </div>
 
-  <!-- Google Translate script -->
-  <script type="text/javascript">
+  <script>
+    // ✅ Handle loading animation
+    const loader = document.getElementById("loadingScreen");
+    const iframe = document.getElementById("dataFrame");
+    const main = document.getElementById("mainContent");
+
+    // Show main content when iframe loads or after 3 seconds fallback
+    const showContent = () => {
+      loader.style.opacity = "0";
+      loader.style.transition = "opacity 0.8s ease";
+      setTimeout(() => {
+        loader.remove();
+        main.style.display = "block";
+        iframe.style.display = "block";
+        document.body.style.overflow = "auto";
+      }, 800);
+    };
+
+    iframe.addEventListener("load", showContent);
+    setTimeout(showContent, 3000); // fallback if iframe slow
+
+    // ✅ Google Translate setup
     function googleTranslateElementInit() {
       new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
     }
@@ -178,26 +186,9 @@
       widget.style.display = widget.style.display === 'none' ? 'block' : 'none';
     });
   </script>
-  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
-  <script>
-    const loader = document.getElementById("loadingScreen");
-    const iframe = document.getElementById("dataFrame");
-    const main = document.getElementById("mainContent");
-
-    iframe.addEventListener("load", () => {
-      setTimeout(() => {
-        loader.style.opacity = "0";
-        loader.style.transition = "opacity 0.8s ease";
-        setTimeout(() => {
-          loader.remove();
-          main.style.display = "block";
-          iframe.style.display = "block";
-          document.body.style.overflow = "auto";
-        }, 800);
-      }, 800);
-    });
-  </script>
+  <!-- Load Translate script safely -->
+  <script async src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 </body>
 </html>
