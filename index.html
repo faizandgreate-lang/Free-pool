@@ -18,15 +18,35 @@
       font-size: 1.3em;
       text-align: center;
     }
+    .download-btn {
+      display: block;
+      margin: 10px auto;
+      padding: 8px 16px;
+      background: #198754;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
     iframe {
       width: 100%;
-      height: calc(100vh - 60px); /* adjust header height */
+      height: calc(100vh - 100px); /* adjust for header + button */
       border: none;
     }
   </style>
 </head>
 <body>
   <header>📋 Free Pool Live Dashboard</header>
+
+  <!-- Download button -->
+  <a class="download-btn" 
+     href="https://docs.google.com/spreadsheets/d/e/2PACX-1vRzP7kzkSlt3M4toF34vnyxBdHgQ2J9kM0yTNb4NSL-ZsM9O8vC4M83J4uw-y-DWusEtVBYuHJ-SqMs/export?format=xlsx" 
+     target="_blank" download>
+    ⬇️ Download Excel
+  </a>
+
   <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRzP7kzkSlt3M4toF34vnyxBdHgQ2J9kM0yTNb4NSL-ZsM9O8vC4M83J4uw-y-DWusEtVBYuHJ-SqMs/pubhtml?widget=true&headers=false"></iframe>
 </body>
 </html>
