@@ -124,16 +124,14 @@
       iframe { transform: scale(0.55); width: 182%; height: 182%; }
     }
 
-    /* 🚫 Hide Google Translate branding completely */
+    /* 🚫 Hide Google Translate branding */
     .goog-te-banner-frame.skiptranslate,
     .goog-logo-link,
     .goog-te-gadget span,
     .goog-te-gadget-simple img {
       display: none !important;
     }
-    .goog-te-gadget {
-      color: transparent !important;
-    }
+    .goog-te-gadget { color: transparent !important; }
     body { top: 0px !important; }
   </style>
 </head>
@@ -191,7 +189,6 @@
         document.body.style.overflow = "auto";
       }, 800);
     };
-
     iframe.addEventListener("load", showContent);
     setTimeout(showContent, 3000);
 
@@ -204,27 +201,28 @@
       }, 'google_translate_element');
     }
 
+    // ✅ Preload Translator Early (fast click)
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        const frame = document.querySelector('iframe.goog-te-menu-frame');
+        if (!frame) googleTranslateElementInit();
+      }, 1500);
+    });
+
     // ✅ Flag button translation
     function changeLanguage(lang) {
       const frame = document.querySelector('iframe.goog-te-menu-frame');
-      if (!frame) return alert("Please wait for translator to load...");
-      const languages = {
-        'en': 'English',
-        'ar': 'Arabic',
-        'hi': 'Hindi',
-        'ur': 'Urdu'
-      };
+      if (!frame) return alert("Translator still loading... please try again in 1s");
       const innerDoc = frame.contentDocument || frame.contentWindow.document;
       const links = innerDoc.querySelectorAll('.goog-te-menu2-item span.text');
+      const map = { en: 'English', ar: 'Arabic', hi: 'Hindi', ur: 'Urdu' };
       links.forEach(el => {
-        if (el.innerText.includes(languages[lang])) el.click();
+        if (el.innerText.includes(map[lang])) el.click();
       });
     }
 
     document.querySelectorAll('.lang-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        changeLanguage(btn.dataset.lang);
-      });
+      btn.addEventListener('click', () => changeLanguage(btn.dataset.lang));
     });
   </script>
 
