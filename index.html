@@ -122,23 +122,20 @@
     @media (max-width: 500px) {
       iframe { transform: scale(0.55); width: 182%; height: 182%; }
     }
-    /* 🚫 Hide Google Translate top bar and logo */
-.goog-te-banner-frame.skiptranslate,
-.goog-logo-link,
-.goog-te-gadget span {
-  display: none !important;
-}
-body {
-  top: 0px !important;
-}
-#goog-gt-tt, .goog-te-balloon-frame {
-  display: none !important;
-}
-.goog-text-highlight {
-  background: none !important;
-  box-shadow: none !important;
-}
 
+    /* 🚫 Hide Google Translate branding */
+    .goog-te-banner-frame.skiptranslate,
+    .goog-logo-link,
+    .goog-te-gadget span,
+    .goog-te-gadget-simple img {
+      display: none !important;
+    }
+    .goog-te-gadget {
+      color: transparent !important;
+    }
+    body {
+      top: 0px !important;
+    }
   </style>
 </head>
 <body>
@@ -193,9 +190,13 @@ body {
     iframe.addEventListener("load", showContent);
     setTimeout(showContent, 3000); // fallback if iframe slow
 
-    // ✅ Google Translate setup
+    // ✅ Google Translate setup (only 4 languages)
     function googleTranslateElementInit() {
-      new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'en,ur,hi,ar',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
     }
 
     document.getElementById('translateBtn').addEventListener('click', () => {
