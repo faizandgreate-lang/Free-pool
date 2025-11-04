@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Free Pool Live Dashboard</title>
+  <title>"Carefully Matched, Professionally Supplied"
+</title>
   <style>
     body {
       font-family: "Poppins", Arial, sans-serif;
@@ -53,17 +54,32 @@
       justify-content: center;
       align-items: center;
       flex-direction: column;
+      text-align: center;
       z-index: 9999;
+      padding: 20px;
+      box-sizing: border-box;
     }
     #loadingScreen img {
-      width: 420px;
+      max-width: 80%;
+      width: 350px;
       height: auto;
       margin-bottom: 20px;
+      object-fit: contain;
     }
     #loadingScreen p {
-      font-size: 18px;
+      font-size: 20px;
       color: #004085;
       font-weight: 600;
+      margin: 0;
+    }
+
+    @media (max-width: 600px) {
+      #loadingScreen img {
+        width: 250px;
+      }
+      #loadingScreen p {
+        font-size: 16px;
+      }
     }
   </style>
 </head>
