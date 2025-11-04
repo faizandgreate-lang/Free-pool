@@ -1,254 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Live Free-Pool</title>
-  <style>
-    body {
-      font-family: "Poppins", Arial, sans-serif;
-      margin: 0;
-      background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-      color: #222;
-      overflow: hidden;
-    }
-    header {
-      background: #004085;
-      color: #fff;
-      padding: 12px 20px;
-      font-size: 1.3em;
-      text-align: center;
-    }
-    .top-bar {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 10px 0;
-      background: #f1f3f5;
-    }
-    .download-btn {
-      text-decoration: none;
-      background: #198754;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 6px;
-      font-weight: 600;
-      transition: background 0.2s;
-    }
-    .download-btn:hover {
-      background: #157347;
-    }
-
-    /* 🌐 Language buttons */
-    .lang-buttons {
-      position: fixed;
-      top: 15px;
-      right: 15px;
-      display: flex;
-      gap: 8px;
-      z-index: 10000;
-    }
-    .lang-btn {
-      font-size: 22px;
-      cursor: pointer;
-      border: none;
-      background: none;
-      transition: transform 0.2s;
-    }
-    .lang-btn:hover {
-      transform: scale(1.2);
-    }
-
-    /* iframe container */
-    .iframe-container {
-      position: relative;
-      width: 100%;
-      height: calc(100vh - 120px);
-      overflow: auto;
-      background: white;
-    }
-    iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      transform-origin: 0 0;
-      display: none;
-    }
-
-    /* 🔄 Loading screen */
-    #loadingScreen {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: #f8f9fa;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      text-align: center;
-      z-index: 9999;
-      padding: 20px;
-      box-sizing: border-box;
-    }
-    #loadingScreen img {
-      max-width: 85%;
-      width: 400px;
-      height: auto;
-      margin-bottom: 25px;
-      animation: pulse 1.6s ease-in-out infinite;
-    }
-    #loadingScreen p {
-      font-size: 20px;
-      color: #004085;
-      font-weight: 600;
-      margin: 0;
-      animation: fade 1.6s ease-in-out infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); opacity: 0.9; }
-      50% { transform: scale(1.04); opacity: 1; }
-    }
-    @keyframes fade {
-      0%, 100% { opacity: 0.3; }
-      50% { opacity: 1; }
-    }
-
-    /* ⚠️ Warning popup */
-    #warningBox {
-      display: none;
-      position: fixed;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #dc3545;
-      color: white;
-      padding: 10px 18px;
-      border-radius: 8px;
-      font-weight: 500;
-      z-index: 10001;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-      animation: slideDown 0.4s ease;
-    }
-
-    @keyframes slideDown {
-      from { opacity: 0; transform: translate(-50%, -20px); }
-      to { opacity: 1; transform: translate(-50%, 0); }
-    }
-
-    @media (max-width: 1000px) {
-      iframe { transform: scale(0.85); width: 118%; height: 118%; }
-    }
-    @media (max-width: 700px) {
-      iframe { transform: scale(0.7); width: 142%; height: 142%; }
-    }
-    @media (max-width: 500px) {
-      iframe { transform: scale(0.55); width: 182%; height: 182%; }
-    }
-
-    /* 🚫 Hide Google Translate branding */
-    .goog-te-banner-frame.skiptranslate,
-    .goog-logo-link,
-    .goog-te-gadget span,
-    .goog-te-gadget-simple img {
-      display: none !important;
-    }
-    .goog-te-gadget { color: transparent !important; }
-    body { top: 0px !important; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Live Free-Pool</title>
+<style>
+body{font-family:"Poppins",Arial,sans-serif;margin:0;background:linear-gradient(135deg,#f8f9fa,#e9ecef);color:#222;overflow:hidden}
+header{background:#004085;color:#fff;padding:12px 20px;font-size:1.3em;text-align:center}
+.top-bar{display:flex;justify-content:center;align-items:center;padding:10px 0;background:#f1f3f5}
+.download-btn{text-decoration:none;background:#198754;color:#fff;padding:10px 20px;border-radius:6px;font-weight:600;transition:background .2s}
+.download-btn:hover{background:#157347}
+.lang-buttons{position:fixed;top:15px;right:15px;display:flex;gap:8px;z-index:10000}
+.lang-btn{font-size:22px;cursor:pointer;border:none;background:none;transition:transform .2s}
+.lang-btn:hover{transform:scale(1.2)}
+.iframe-container{position:relative;width:100%;height:calc(100vh - 120px);overflow:auto;background:#fff}
+iframe{width:100%;height:100%;border:none;transform-origin:0 0;display:none}
+#loadingScreen{position:fixed;top:0;left:0;width:100%;height:100%;background:#f8f9fa;display:flex;justify-content:center;align-items:center;flex-direction:column;text-align:center;z-index:9999;padding:20px;box-sizing:border-box}
+#loadingScreen img{max-width:85%;width:380px;margin-bottom:25px;animation:pulse 1.6s ease-in-out infinite}
+#loadingScreen p{font-size:20px;color:#004085;font-weight:600;margin:0;animation:fade 1.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:.9}50%{transform:scale(1.04);opacity:1}}
+@keyframes fade{0%,100%{opacity:.3}50%{opacity:1}}
+#warningBox{display:none;position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#dc3545;color:#fff;padding:10px 18px;border-radius:8px;font-weight:500;z-index:10001;box-shadow:0 2px 10px rgba(0,0,0,.2);animation:slideDown .4s ease}
+@keyframes slideDown{from{opacity:0;transform:translate(-50%,-20px)}to{opacity:1;transform:translate(-50%,0)}}
+@media(max-width:1000px){iframe{transform:scale(.85);width:118%;height:118%}}
+@media(max-width:700px){iframe{transform:scale(.7);width:142%;height:142%}}
+@media(max-width:500px){iframe{transform:scale(.55);width:182%;height:182%}}
+.goog-te-banner-frame.skiptranslate,.goog-logo-link,.goog-te-gadget span,.goog-te-gadget-simple img{display:none!important}
+.goog-te-gadget{color:transparent!important}
+body{top:0!important}
+</style>
 </head>
 <body>
+<div id="warningBox">⚠️ Translator still loading... please wait 2 seconds.</div>
+<div class="lang-buttons">
+  <button class="lang-btn" data-lang="en">🇬🇧</button>
+  <button class="lang-btn" data-lang="ar">🇸🇦</button>
+  <button class="lang-btn" data-lang="hi">🇮🇳</button>
+  <button class="lang-btn" data-lang="ur">🇵🇰</button>
+</div>
 
-  <!-- ⚠️ Warning Box -->
-  <div id="warningBox">⚠️ Translator still loading... please wait 2 seconds.</div>
+<div id="google_translate_element" style="display:none"></div>
 
-  <!-- 🌐 Emoji Language Buttons -->
-  <div class="lang-buttons">
-    <button class="lang-btn" data-lang="en">🇬🇧</button>
-    <button class="lang-btn" data-lang="ar">🇸🇦</button>
-    <button class="lang-btn" data-lang="hi">🇮🇳</button>
-    <button class="lang-btn" data-lang="ur">🇵🇰</button>
+<div id="loadingScreen">
+  <img src="https://i.ibb.co/N0Bdr5N/Care-Pro-Logo-Jan-2025-Transparent.png" alt="Care-Pro Logo">
+  <p>Loading...</p>
+</div>
+
+<div id="mainContent" style="display:none">
+  <header>“Carefully Matched, Professionally Supplied”</header>
+  <div class="top-bar">
+    <a class="download-btn" href="https://docs.google.com/spreadsheets/d/1-zyAJe8u1R9Pmtq3raT39UeEuoahfjEq_bvQKq2HMc8/export?format=xlsx" target="_blank">⬇ Download Excel</a>
   </div>
-
-  <!-- Hidden Translate widget -->
-  <div id="google_translate_element" style="display:none;"></div>
-
-  <!-- 🔄 Loading Page -->
-  <div id="loadingScreen">
-    <img src="https://i.ibb.co/N0Bdr5N/Care-Pro-Logo-Jan-2025-Transparent.png" alt="Care-Pro Logo">
-    <p>Loading...</p>
+  <div class="iframe-container">
+    <iframe id="dataFrame" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRzP7kzkSlt3M4toF34vnyxBdHgQ2J9kM0yTNb4NSL-ZsM9O8vC4M83J4uw-y-DWusEtVBYuHJ-SqMs/pubhtml?widget=true&headers=false"></iframe>
   </div>
+</div>
 
-  <!-- 📋 Main Page -->
-  <div id="mainContent" style="display:none;">
-    <header>“Carefully Matched, Professionally Supplied”</header>
+<script>
+const loader=document.getElementById("loadingScreen"),
+iframe=document.getElementById("dataFrame"),
+main=document.getElementById("mainContent"),
+warning=document.getElementById("warningBox");
+function showContent(){
+  loader.style.opacity="0";
+  loader.style.transition="opacity .8s ease";
+  setTimeout(()=>{loader.remove();main.style.display="block";iframe.style.display="block";document.body.style.overflow="auto"},800);
+}
+iframe.addEventListener("load",showContent);
+setTimeout(showContent,2500);
 
-    <div class="top-bar">
-      <a class="download-btn" 
-        href="https://docs.google.com/spreadsheets/d/1-zyAJe8u1R9Pmtq3raT39UeEuoahfjEq_bvQKq2HMc8/export?format=xlsx&id=1-zyAJe8u1R9Pmtq3raT39UeEuoahfjEq_bvQKq2HMc8"
-        target="_blank">
-        ⬇ Download Excel
-      </a>
-    </div>
+function googleTranslateElementInit(){
+  new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,ar,hi,ur",layout:google.translate.TranslateElement.InlineLayout.SIMPLE},"google_translate_element");
+}
+function changeLanguage(lang){
+  const frame=document.querySelector("iframe.goog-te-menu-frame");
+  if(!frame){
+    warning.style.display="block";
+    setTimeout(()=>warning.style.display="none",2500);
+    return;
+  }
+  const innerDoc=frame.contentDocument||frame.contentWindow.document,
+  links=innerDoc.querySelectorAll(".goog-te-menu2-item span.text"),
+  map={en:"English",ar:"Arabic",hi:"Hindi",ur:"Urdu"};
+  links.forEach(el=>{if(el.innerText.includes(map[lang]))el.click()});
+}
+document.querySelectorAll(".lang-btn").forEach(btn=>{
+  btn.addEventListener("click",()=>changeLanguage(btn.dataset.lang));
+});
+</script>
 
-    <div class="iframe-container">
-      <iframe id="dataFrame"
-        src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRzP7kzkSlt3M4toF34vnyxBdHgQ2J9kM0yTNb4NSL-ZsM9O8vC4M83J4uw-y-DWusEtVBYuHJ-SqMs/pubhtml?widget=true&headers=false">
-      </iframe>
-    </div>
-  </div>
-
-  <script>
-    // ✅ Handle loading animation
-    const loader = document.getElementById("loadingScreen");
-    const iframe = document.getElementById("dataFrame");
-    const main = document.getElementById("mainContent");
-    const warning = document.getElementById("warningBox");
-
-    const showContent = () => {
-      loader.style.opacity = "0";
-      loader.style.transition = "opacity 0.8s ease";
-      setTimeout(() => {
-        loader.remove();
-        main.style.display = "block";
-        iframe.style.display = "block";
-        document.body.style.overflow = "auto";
-      }, 800);
-    };
-    iframe.addEventListener("load", showContent);
-    setTimeout(showContent, 3000);
-
-    // ✅ Google Translate init
-    function googleTranslateElementInit() {
-      new google.translate.TranslateElement({
-        pageLanguage: 'en',
-        includedLanguages: 'en,ar,hi,ur',
-        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-      }, 'google_translate_element');
-    }
-
-    // ✅ Flag button translation with warning
-    function changeLanguage(lang) {
-      const frame = document.querySelector('iframe.goog-te-menu-frame');
-      if (!frame) {
-        warning.style.display = "block";
-        setTimeout(() => (warning.style.display = "none"), 2500);
-        return;
-      }
-      const innerDoc = frame.contentDocument || frame.contentWindow.document;
-      const links = innerDoc.querySelectorAll('.goog-te-menu2-item span.text');
-      const map = { en: 'English', ar: 'Arabic', hi: 'Hindi', ur: 'Urdu' };
-      links.forEach(el => {
-        if (el.innerText.includes(map[lang])) el.click();
-      });
-    }
-
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-      btn.addEventListener('click', () => changeLanguage(btn.dataset.lang));
-    });
-  </script>
-
-  <!-- Load Google Translate -->
-  <script async src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<script async src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 </html>
