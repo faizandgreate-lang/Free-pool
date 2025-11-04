@@ -18,41 +18,46 @@
       font-size: 1.3em;
       text-align: center;
     }
-    .download-btn {
-      display: inline-block;
-      margin: 10px auto;
-      padding: 8px 16px;
+    .top-bar {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 10px 20px;
+      background: #e9ecef;
+      gap: 10px;
+    }
+    .top-bar a {
+      text-decoration: none;
       background: #198754;
       color: #fff;
-      border: none;
+      padding: 6px 12px;
       border-radius: 4px;
-      text-decoration: none;
-      font-weight: bold;
-      cursor: pointer;
-      text-align: center;
+      font-weight: 600;
+      transition: background 0.2s;
     }
-    .button-container {
-      text-align: center;
-      margin: 10px 0;
+    .top-bar a:hover {
+      background: #157347;
     }
     iframe {
       width: 100%;
-      height: calc(100vh - 120px); /* adjust for header + button */
+      height: calc(100vh - 100px); /* header + top-bar */
       border: none;
     }
   </style>
 </head>
 <body>
+
   <header>📋 Free Pool Live Dashboard</header>
 
-  <div class="button-container">
-    <a class="download-btn" 
-       href="https://docs.google.com/spreadsheets/d/e/2PACX-1vRzP7kzkSlt3M4toF34vnyxBdHgQ2J9kM0yTNb4NSL-ZsM9O8vC4M83J4uw-y-DWusEtVBYuHJ-SqMs/export?format=xlsx" 
-       target="_blank">
-       ⬇️ Download Excel
+  <div class="top-bar">
+    <a href="https://docs.google.com/spreadsheets/d/1-zyAJe8u1R9Pmtq3raT39UeEuoahfjEq_bvQKq2HMc8/export?format=xlsx" target="_blank" download>
+      ⬇ Download Excel
     </a>
   </div>
 
-  <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRzP7kzkSlt3M4toF34vnyxBdHgQ2J9kM0yTNb4NSL-ZsM9O8vC4M83J4uw-y-DWusEtVBYuHJ-SqMs/pubhtml?widget=true&headers=false"></iframe>
+  <iframe 
+    src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRzP7kzkSlt3M4toF34vnyxBdHgQ2J9kM0yTNb4NSL-ZsM9O8vC4M83J4uw-y-DWusEtVBYuHJ-SqMs/pubhtml?widget=true&headers=false">
+  </iframe>
+
 </body>
 </html>
