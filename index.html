@@ -32,6 +32,7 @@ body{top:0!important}
 </head>
 <body>
 <div id="warningBox">⚠️ Translator still loading... please wait 2 seconds.</div>
+
 <div class="lang-buttons">
   <button class="lang-btn" data-lang="en">🇬🇧</button>
   <button class="lang-btn" data-lang="ar">🇸🇦</button>
@@ -61,6 +62,7 @@ const loader=document.getElementById("loadingScreen"),
 iframe=document.getElementById("dataFrame"),
 main=document.getElementById("mainContent"),
 warning=document.getElementById("warningBox");
+
 function showContent(){
   loader.style.opacity="0";
   loader.style.transition="opacity .8s ease";
@@ -69,21 +71,31 @@ function showContent(){
 iframe.addEventListener("load",showContent);
 setTimeout(showContent,2500);
 
+// ✅ Initialize Google Translate
 function googleTranslateElementInit(){
   new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,ar,hi,ur",layout:google.translate.TranslateElement.InlineLayout.SIMPLE},"google_translate_element");
 }
+
+// ✅ Retry system for language change
 function changeLanguage(lang){
-  const frame=document.querySelector("iframe.goog-te-menu-frame");
-  if(!frame){
-    warning.style.display="block";
-    setTimeout(()=>warning.style.display="none",2500);
-    return;
+  let tries=0;
+  function attempt(){
+    const frame=document.querySelector("iframe.goog-te-menu-frame");
+    if(!frame){
+      if(tries<8){tries++;setTimeout(attempt,500);}else{
+        warning.style.display="block";
+        setTimeout(()=>warning.style.display="none",2500);
+      }
+      return;
+    }
+    const innerDoc=frame.contentDocument||frame.contentWindow.document,
+    links=innerDoc.querySelectorAll(".goog-te-menu2-item span.text"),
+    map={en:"English",ar:"Arabic",hi:"Hindi",ur:"Urdu"};
+    links.forEach(el=>{if(el.innerText.includes(map[lang]))el.click()});
   }
-  const innerDoc=frame.contentDocument||frame.contentWindow.document,
-  links=innerDoc.querySelectorAll(".goog-te-menu2-item span.text"),
-  map={en:"English",ar:"Arabic",hi:"Hindi",ur:"Urdu"};
-  links.forEach(el=>{if(el.innerText.includes(map[lang]))el.click()});
+  attempt();
 }
+
 document.querySelectorAll(".lang-btn").forEach(btn=>{
   btn.addEventListener("click",()=>changeLanguage(btn.dataset.lang));
 });
