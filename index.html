@@ -8,26 +8,29 @@
 body{
   font-family:"Poppins",Arial,sans-serif;
   margin:0;
-  background:linear-gradient(135deg,#f8f9fa,#e9ecef);
+  background:linear-gradient(135deg,#c2e9fb,#a1c4fd); /* Blue/green glass theme */
   color:#222;
   overflow:hidden
 }
 
 /* Header */
 header{
-  background:#004085;
+  background:rgba(0,64,133,0.85);
   color:#fff;
   padding:12px 20px 12px 70px; /* space for logo */
   font-size:1.3em;
   text-align:center;
   position:relative;
+  backdrop-filter: blur(10px);
+  box-shadow:0 4px 6px rgba(0,0,0,0.1);
+  border-bottom:1px solid rgba(255,255,255,0.3);
 }
 
 /* Top-left breathing logo */
 header .top-left-logo{
   position:absolute;
   left:10px;
-  top:120%;
+  top:50%;
   transform:translateY(-50%);
   height:50px;
   width:auto;
@@ -42,7 +45,8 @@ header .top-left-logo{
   justify-content:center;
   align-items:center;
   padding:10px 0;
-  background:#f1f3f5
+  background:rgba(255,255,255,0.25);
+  backdrop-filter: blur(5px);
 }
 .download-btn{
   text-decoration:none;
@@ -63,7 +67,9 @@ header .top-left-logo{
   width:100%;
   height:calc(100vh - 120px);
   overflow:auto;
-  background:#fff
+  background:rgba(255,255,255,0.3);
+  backdrop-filter: blur(5px);
+  border-radius:10px;
 }
 iframe{
   width:100%;
@@ -80,7 +86,7 @@ iframe{
   left:0;
   width:100%;
   height:100%;
-  background:#f8f9fa;
+  background:linear-gradient(135deg,#c2e9fb,#a1c4fd);
   display:flex;
   justify-content:center;
   align-items:center;
@@ -136,11 +142,11 @@ iframe{
   </header>
   
   <div class="top-bar">
-    <a class="download-btn" href="https://docs.google.com/spreadsheets/d/1-zyAJe8u1R9Pmtq3raT39UeEuoahfjEq_bvQKq2HMc8/export?format=xlsx" target="_blank">⬇ Download Excel</a>
+    <a class="download-btn" href="#" target="_blank">⬇ Download Excel</a>
   </div>
   
   <div class="iframe-container">
-    <iframe id="dataFrame" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRzP7kzkSlt3M4toF34vnyxBdHgQ2J9kM0yTNb4NSL-ZsM9O8vC4M83J4uw-y-DWusEtVBYuHJ-SqMs/pubhtml?widget=true&headers=false"></iframe>
+    <iframe id="dataFrame" src="#"></iframe>
   </div>
 </div>
 
